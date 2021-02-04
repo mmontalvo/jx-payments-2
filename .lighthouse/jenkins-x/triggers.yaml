@@ -12,11 +12,6 @@ spec:
     context: "newpipelinerun"
     rerun_command: /newpipelinerun
     source: "newpipelinerun.yaml"
-  - name: coverage
-    always_run: true
-    context: "coverage"
-    rerun_command: /coverage
-    source: "coverage.yaml"
   postsubmits:
   - name: release
     context: "release"
