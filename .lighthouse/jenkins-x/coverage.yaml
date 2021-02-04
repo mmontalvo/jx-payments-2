@@ -29,9 +29,13 @@ spec:
     description: The name of the requirements file inside the source location
     default: "requirements.txt"
   steps:
+  - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone-pr.yaml@versionStream
+    name: ""
+    resources: {}
+  - name: jx-variables
+    resources: {}
   - name: code-coverage
-    image: docker.io/python:$(inputs.params.PYTHON)
-    workingDir: $(workspaces.source.path)
+    workingDir: /workspace/source
     script: |
       export PATH=$PATH:$HOME/.local/bin
       if [ -n "$(inputs.params.REQUIREMENTS_FILE)" ] && [ -e "$(inputs.params.REQUIREMENTS_FILE)" ];then
