@@ -7,12 +7,12 @@ spec:
     always_run: true
     optional: false
     source: "pullrequest.yaml"
-  - agent: python-coverage
+  - agent: tekton-pipeline
     always_run: true
-    context: python-coverage
-    name: python-coverage
-    rerun_command: /python-coverage
-    source: python-coverage.yaml
+    context: new-pipeline-run
+    name: new-pipeline-run
+    rerun_command: /new-pipeline-run
+    source: new-pipeline-run.yaml
   postsubmits:
   - name: release
     context: "release"
