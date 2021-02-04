@@ -2,11 +2,6 @@ apiVersion: config.lighthouse.jenkins-x.io/v1alpha1
 kind: TriggerConfig
 spec:
   presubmits:
-  - name: pr
-    context: "pr"
-    always_run: true
-    optional: false
-    source: "pullrequest.yaml"
   - name: newpipelinerun
     always_run: true
     context: "newpipelinerun"
