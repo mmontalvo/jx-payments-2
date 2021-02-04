@@ -1,0 +1,39 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  creationTimestamp: null
+  name: coverage
+spec:
+  pipelineSpec:
+    tasks:
+    - name: coverage
+      resources: {}
+      taskSpec:
+        metadata: {}
+        stepTemplate:
+          image: python:3.6.12-alpine
+          name: ""
+          resources:
+            requests:
+              cpu: 400m
+              memory: 512Mi
+          workingDir: /workspace/source
+        steps:
+        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone-pr.yaml@versionStream
+          name: ""
+          resources: {}
+        - name: jx-variables
+          resources: {}
+        - name: python-coverage
+          script: |
+            pip install pytest coverage
+            coverage run -m pytest $(inputs.params.ARGS) $(inputs.params.SOURCE_PATH)
+            coverage report -m
+        - name: build-container-build
+          resources: {}
+        - name: promote-jx-preview
+          resources: {}
+  podTemplate: {}
+  serviceAccountName: tekton-bot
+  timeout: 240h0m0s
+status: {}
