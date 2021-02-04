@@ -7,10 +7,9 @@ spec:
     always_run: true
     optional: false
     source: "pullrequest.yaml"
-  - agent: tekton-pipeline
+  - name: new-pipeline-run
     always_run: true
     context: new-pipeline-run
-    name: new-pipeline-run
     rerun_command: /new-pipeline-run
     source: new-pipeline-run.yaml
   postsubmits:
