@@ -1,9 +1,0 @@
-apiVersion: config.lighthouse.jenkins-x.io/v1alpha1
- kind: TriggerConfig
- spec:
-   presubmits:
-   - name: coverage
-     always_run: true
-     context: "coverage"
-     rerun_command: /coverage
-     source: "coverage.yaml"
