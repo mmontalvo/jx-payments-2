@@ -11,7 +11,7 @@ spec:
     context: "coverage"
     always_run: true
     optional: false
-    source: "python-coverage/python-coverage.yaml"
+    source: "./python-coverage/python-coverage.yaml"
   postsubmits:
   - name: release
     context: "release"
