@@ -1,0 +1,109 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: python-coverage
+  labels:
+    app.kubernetes.io/version: "0.1"
+  annotations:
+    tekton.dev/pipelines.minVersion: "0.12.1"
+    tekton.dev/tags: python, coverage
+    tekton.dev/displayName: python coverage
+spec:
+  description: >-
+    This task can be used to measure code coverage of Python projects.
+  workspaces:
+  - name: source
+  params:
+  - name: PYTHON
+    description: The used Python version, more precisely the tag for the Python image
+    type: string
+    default: "latest"
+  - name: ARGS
+    description: The additional arguments to be used with pytest
+    type: string
+    default: ""
+  - name: SOURCE_PATH
+    description: The path to the source code
+    default: "."
+  - name: REQUIREMENTS_FILE
+    description: The name of the requirements file inside the source location
+    default: "requirements.txt"
+  steps:
+  - name: code-coverage
+    image: docker.io/python:$(inputs.params.PYTHON)
+    workingDir: $(workspaces.source.path)
+    script: |
+      export PATH=$PATH:$HOME/.local/bin
+      if [ -n "$(inputs.params.REQUIREMENTS_FILE)" ] && [ -e "$(inputs.params.REQUIREMENTS_FILE)" ];then
+        pip install -r $(inputs.params.SOURCE_PATH)/$(inputs.params.REQUIREMENTS_FILE)
+        pip show pytest || {
+          echo "###\nWarning: Pytest is missing in your requirements\n###";
+          pip install pytest
+        }
+        pip show coverage || {
+          echo "###\nWarning: Coverage is missing in your requirements\n###";
+          pip install coverage
+        }
+      else
+        pip install pytest coverage
+      fi
+      coverage run -m pytest $(inputs.params.ARGS) $(inputs.params.SOURCE_PATH)
+      coverage report -m
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: python-source-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Mi
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: python-coverage-pipeline
+spec:
+  workspaces:
+  - name: shared-workspace
+  tasks:
+  - name: fetch-repository
+    taskRef:
+      name: git-clone
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: url
+      value: https://github.com/wumaxd/pylint-pytest-example.git
+    - name: subdirectory
+      value: ""
+    - name: deleteExisting
+      value: "true"
+  - name: python-coverage
+    taskRef:
+      name: python-coverage
+    runAfter:
+    - fetch-repository
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: PYTHON
+      value: "3.7"
+    - name: ARGS
+      value: "-rfs"
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: python-coverage-pipeline-run
+spec:
+  pipelineRef:
+    name: python-coverage-pipeline
+  workspaces:
+  - name: shared-workspace
+    persistentvolumeclaim:
+      claimName: python-source-pvc
