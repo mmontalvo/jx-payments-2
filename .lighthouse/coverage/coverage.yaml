@@ -2,11 +2,11 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   creationTimestamp: null
-  name: pullrequest
+  name: coverage
 spec:
   pipelineSpec:
     tasks:
-    - name: from-build-pack
+    - name: coverage
       resources: {}
       taskSpec:
         metadata: {}
@@ -24,10 +24,11 @@ spec:
           resources: {}
         - name: jx-variables
           resources: {}
-        - name: build-python-unittest
+        - name: python-coverage
           script: |
-            #!/usr/bin/env sh
-            echo "PATATA"
+            pip install pytest coverage
+            coverage run -m pytest $(inputs.params.ARGS) $(inputs.params.SOURCE_PATH)
+            coverage report -m
         - name: build-container-build
           resources: {}
         - name: promote-jx-preview
