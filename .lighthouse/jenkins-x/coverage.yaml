@@ -11,7 +11,7 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/python/pullrequest.yaml@versionStream
+          image: python:3.6.12-alpine
           name: ""
           resources:
             requests:
