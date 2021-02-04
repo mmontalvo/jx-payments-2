@@ -9,9 +9,9 @@ spec:
     source: "pullrequest.yaml"
   - name: new-pipeline-run
     always_run: true
-    context: new-pipeline-run
+    context: "new-pipeline-run"
     rerun_command: /new-pipeline-run
-    source: new-pipeline-run.yaml
+    source: "new-pipeline-run.yaml"
   postsubmits:
   - name: release
     context: "release"
