@@ -7,11 +7,12 @@ spec:
     always_run: true
     optional: false
     source: "pullrequest.yaml"
-  - name: coverage
-    context: "coverage"
+  - agent: python-coverage
     always_run: true
-    optional: false
-    source: "./python-coverage/python-coverage.yaml"
+    context: python-coverage
+    name: python-coverage
+    rerun_command: /python-coverage
+    source: python-coverage.yaml
   postsubmits:
   - name: release
     context: "release"
