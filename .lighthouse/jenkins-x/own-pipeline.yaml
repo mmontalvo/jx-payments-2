@@ -27,6 +27,7 @@ spec:
         - name: python-test
           script: |
             pip install -r requirements.txt
+            pip install mysqlclient
             python ./manage.py test
   podTemplate: {}
   serviceAccountName: tekton-bot
