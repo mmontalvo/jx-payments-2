@@ -26,8 +26,9 @@ spec:
           resources: {}
         - name: python-test
           script: |
+            apt-get install -y libmariadb-dev
             pip install -r requirements.txt
-            pip install MySQL-python
+            pip install mysqlclient
             python ./manage.py test
   podTemplate: {}
   serviceAccountName: tekton-bot
