@@ -27,12 +27,11 @@ spec:
         - name: build-python-unittest
           script: |
             #!/bin/sh
+            apt-get install -y libmariadb-dev
             pip install mysqlclient
             pip install -r requirements.txt
             python ./manage.py test
         - name: build-container-build
-          resources: {}
-        - name: promote-jx-preview
           resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
