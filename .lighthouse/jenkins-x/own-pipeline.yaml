@@ -11,7 +11,7 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/python/pullrequest.yaml@versionStream
+          image: python:3.6.12-alpine
           name: ""
           resources:
             requests:
@@ -24,13 +24,10 @@ spec:
           resources: {}
         - name: jx-variables
           resources: {}
-        - name: build-python-unittest
+        - name: python-test
           script: |
-            #!/bin/sh
             pip install -r requirements.txt
             python ./manage.py test
-        - name: build-container-build
-          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s
