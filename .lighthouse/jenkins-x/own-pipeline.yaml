@@ -27,6 +27,7 @@ spec:
         - name: build-python-unittest
           script: |
             #!/bin/sh
+            pip install -r requirements.txt
             python ./manage.py test
         - name: build-container-build
           resources: {}
