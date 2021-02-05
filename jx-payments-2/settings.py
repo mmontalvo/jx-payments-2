@@ -77,8 +77,16 @@ WSGI_APPLICATION = 'jx-payments-2.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'sqlite_moneyfx',
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'moneyfx',
+        'USER': 'root',
+	    'PASSWORD': os.environ.get('MYSQL_ROOT_PASSWORD', 'password'),
+        'HOST': os.environ.get('MONEYFX_PG_HOST', 'mysql'),
+        'PORT': 3306,
+        'TEST': {
+            'NAME': 'sqlite_moneyfx',
+            'ENGINE': 'django.db.backends.sqlite3',
+        }
     }
 }
 
