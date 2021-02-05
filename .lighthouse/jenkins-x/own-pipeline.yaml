@@ -11,6 +11,7 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
+          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/python/pullrequest.yaml@versionStream
           name: ""
           resources:
             requests:
@@ -18,28 +19,18 @@ spec:
               memory: 512Mi
           workingDir: /workspace/source
         steps:
-        - image: ghcr.io/jenkins-x/jx-boot:3.1.224
-          name: jx-variables
+        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone-pr.yaml@versionStream
+          name: ""
           resources: {}
-          script: |
-            #!/usr/bin/env sh
-            jx gitops variables
-        - image: python:3.6.12-alpine
-          name: build-python-unittest
+        - name: jx-variables
           resources: {}
+        - name: build-python-unittest
           script: |
             #!/bin/sh
             pip install -r requirements.txt
-            pip install mysqlclient
             python ./manage.py test
-        - image: gcr.io/kaniko-project/executor:debug-v1.3.0
-          name: build-container-build
+        - name: build-container-build
           resources: {}
-          script: |
-            #!/busybox/sh
-            source .jx/variables.sh
-            cp /tekton/creds-secrets/tekton-container-registry-auth/.dockerconfigjson /kaniko/.docker/config.json
-            /kaniko/executor $KANIKO_FLAGS --context=/workspace/source --dockerfile=Dockerfile --destination=$DOCKER_REGISTRY/$DOCKER_REGISTRY_ORG/$APP_NAME:$VERSION
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s
