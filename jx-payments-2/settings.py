@@ -84,7 +84,6 @@ DATABASES = {
         'HOST': os.environ.get('MONEYFX_PG_HOST', 'mysql'),
         'PORT': 3306,
         'TEST': {
-            'NAME': 'sqlite_moneyfx',
             'ENGINE': 'django.db.backends.sqlite3',
         }
     }
