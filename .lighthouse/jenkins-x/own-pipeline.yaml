@@ -27,7 +27,7 @@ spec:
         - name: build-python-unittest
           script: |
             #!/bin/sh
-            apt-get install -y libmariadb-dev
+            apt-get install -y libmariadbclient-dev
             pip install mysqlclient
             pip install -r requirements.txt
             python ./manage.py test
