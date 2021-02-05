@@ -12,4 +12,3 @@ class PaymentTest(TestCase):
     def test_payment_deal_reference(self):
         payment_gbpeur = Payment.objects.get(deal_reference='MNN-DJANGO-PAY-20200503212231')
         self.assertEqual(payment_gbpeur.get_sell_buy_format(), "GBPEUR")
-        self.assertEqual(payment_gbpeur.amount_with_currency(), "10000GBPEUR")

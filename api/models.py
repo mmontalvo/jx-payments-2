@@ -16,8 +16,8 @@ class Payment(models.Model):
     def get_sell_buy_format(self):
         return self.sell_currency + self.buy_currency
 
-    def amount_with_currency(self):
-        return self.amount + self.currency_pair
+    # def amount_with_currency(self):
+    #     return self.amount + self.currency_pair
 
 class BankTransfer(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
