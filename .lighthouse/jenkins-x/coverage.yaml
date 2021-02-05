@@ -26,6 +26,7 @@ spec:
           resources: {}
         - name: python-coverage
           script: |
+            pip install -r requirements.txt
             pip install pytest coverage
             coverage run -m pytest $(inputs.params.ARGS) $(inputs.params.SOURCE_PATH)
             coverage report -m
