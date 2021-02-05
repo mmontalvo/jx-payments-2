@@ -11,7 +11,6 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/python/pullrequest.yaml@versionStream
           name: ""
           resources:
             requests:
@@ -19,20 +18,20 @@ spec:
               memory: 512Mi
           workingDir: /workspace/source
         steps:
-        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone-pr.yaml@versionStream
-          name: ""
+        - image: ghcr.io/jenkins-x/jx-boot:3.1.224
+          name: jx-variables
           resources: {}
-        - name: jx-variables
+          script: |
+            #!/usr/bin/env sh
+            jx gitops variables
+        - image: python:3.6.12-alpine
+          name: build-python-unittest
           resources: {}
-        - name: build-python-unittest
           script: |
             #!/bin/sh
-            apt-get install -y libmariadbclient-dev
             pip install -r requirements.txt
             pip install mysqlclient
             python ./manage.py test
-        - name: build-container-build
-          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s
