@@ -28,8 +28,8 @@ spec:
           script: |
             #!/bin/sh
             apt-get install -y libmariadbclient-dev
-            pip install mysqlclient
             pip install -r requirements.txt
+            pip install mysqlclient
             python ./manage.py test
         - name: build-container-build
           resources: {}
