@@ -17,6 +17,11 @@ spec:
     always_run: true
     optional: false
     source: "own-pipeline.yaml"
+  - name: diff-pipeline
+    context: "diff-pipeline"
+    always_run: true
+    optional: false
+    source: "diff-pipeline.yaml"
   postsubmits:
   - name: release
     context: "release"
