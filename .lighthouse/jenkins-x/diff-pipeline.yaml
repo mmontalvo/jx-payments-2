@@ -294,10 +294,10 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
-  name: demo-pipeline-run-1
+  name: diff-pipeline
 spec:
   pipelineRef:
-    name: demo-pipeline
+    name: diff-pipeline
   serviceAccountName: 'default'
   workspaces:
   - name: git-source
