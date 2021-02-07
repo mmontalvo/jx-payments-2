@@ -27,7 +27,7 @@ spec:
           value: "$(params.a)"
         - name: b
           value: "$(params.b)"
-    - name: sum-and-multiply
+    - name: diff-pipeline
       taskRef:
         name: sum
       params:
