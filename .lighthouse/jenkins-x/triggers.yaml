@@ -2,11 +2,11 @@ apiVersion: config.lighthouse.jenkins-x.io/v1alpha1
 kind: TriggerConfig
 spec:
   presubmits:
-  - name: diff-pipeline
-    context: "diff-pipeline"
+  - name: own-pipeline
+    context: "own-pipeline"
     always_run: true
     optional: false
-    source: "diff-pipeline.yaml"
+    source: "own-pipeline.yaml"
   postsubmits:
   - name: release
     context: "release"
