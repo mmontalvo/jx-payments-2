@@ -24,12 +24,16 @@ spec:
           resources: {}
         - name: jx-variables
           resources: {}
-        - name: python-test
+        - name: build-python-unittest
           script: |
             apt-get install -y libmariadb-dev
             pip install -r requirements.txt
             pip install mysqlclient
             python ./manage.py test
+        - name: build-container-build
+          resources: {}
+        - name: promote-jx-preview
+          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s
