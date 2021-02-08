@@ -6,10 +6,7 @@ from .models import BankTransfer
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Payment
-        fields = (
-          'id', 'deal_reference', 'currency_pair', 'buy_currency', 'sell_currency',
-          'amount', 'client_id'
-        )
+        fields = ('id', 'deal_reference', 'currency_pair', 'buy_currency', 'sell_currency', 'amount', 'client_id')
 
 class BankTransferSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

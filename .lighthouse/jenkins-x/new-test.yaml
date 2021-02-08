@@ -26,13 +26,10 @@ spec:
           resources: {}
         - name: python-coverage
           script: |
+            pip install -r requirements.txt
             pip install pytest coverage
             coverage run -m pytest $(inputs.params.ARGS) $(inputs.params.SOURCE_PATH)
             coverage report -m
-        - name: build-container-build
-          resources: {}
-        - name: promote-jx-preview
-          resources: {}
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s

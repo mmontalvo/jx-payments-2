@@ -2,16 +2,16 @@ apiVersion: tekton.dev/v1beta1
 kind: PipelineRun
 metadata:
   creationTimestamp: null
-  name: pullrequest
+  name: own-pipeline
 spec:
   pipelineSpec:
     tasks:
-    - name: from-build-pack
+    - name: own-pipeline
       resources: {}
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: uses:jenkins-x/jx3-pipeline-catalog/tasks/python/pullrequest.yaml@versionStream
+          image: python:3
           name: ""
           resources:
             requests:
@@ -24,14 +24,12 @@ spec:
           resources: {}
         - name: jx-variables
           resources: {}
-        - name: build-python-unittest
+        - name: python-test
           script: |
-            #!/usr/bin/env sh
-            echo "PATATA"
-        - name: build-container-build
-          resources: {}
-        - name: promote-jx-preview
-          resources: {}
+            apt-get install -y libmariadb-dev
+            pip install -r requirements.txt
+            pip install mysqlclient
+            python ./manage.py test
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s
