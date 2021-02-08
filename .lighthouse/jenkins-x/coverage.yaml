@@ -11,7 +11,7 @@ spec:
       taskSpec:
         metadata: {}
         stepTemplate:
-          image: python:3.6.12-alpine
+          image: python:3
           name: ""
           resources:
             requests:
@@ -24,12 +24,12 @@ spec:
           resources: {}
         - name: jx-variables
           resources: {}
-        - name: python-coverage
+        - name: python-test
           script: |
+            apt-get install -y libmariadb-dev
             pip install -r requirements.txt
-            pip install pytest coverage
-            coverage run -m pytest $(inputs.params.ARGS) $(inputs.params.SOURCE_PATH)
-            coverage report -m
+            pip install mysqlclient
+            python ./manage.py test
   podTemplate: {}
   serviceAccountName: tekton-bot
   timeout: 240h0m0s
