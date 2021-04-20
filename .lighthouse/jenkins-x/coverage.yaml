@@ -1,0 +1,36 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  creationTimestamp: null
+  name: coverage
+spec:
+  pipelineSpec:
+    tasks:
+    - name: coverage
+      resources: {}
+      taskSpec:
+        metadata: {}
+        stepTemplate:
+          image: python:3
+          name: ""
+          resources:
+            requests:
+              cpu: 400m
+              memory: 512Mi
+          workingDir: /workspace/source
+        steps:
+        - image: uses:jenkins-x/jx3-pipeline-catalog/tasks/git-clone/git-clone-pr.yaml@versionStream
+          name: ""
+          resources: {}
+        - name: jx-variables
+          resources: {}
+        - name: python-test
+          script: |
+            apt-get install -y libmariadb-dev
+            pip install -r requirements.txt
+            pip install mysqlclient
+            python ./manage.py test
+  podTemplate: {}
+  serviceAccountName: tekton-bot
+  timeout: 240h0m0s
+status: {}
